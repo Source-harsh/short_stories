@@ -1,52 +1,74 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-void start_write(){
+void start_write() {
     char name[100];
-    printf("enter the title of the story : ");
-    fgets(name,sizeof(name),stdin);
-    name[strcspn(name,"\n")]="\0";
-    char *temp = malloc(strlen(name)+1);
-    strcpy(temp,name);
+    printf("Enter the title of the story: ");
+    fgets(name, sizeof(name), stdin);
+
+    // Remove the trailing newline character
+    name[strcspn(name, "\n")] = '\0';
+
+    // Allocate memory for the story title (not strictly necessary here)
+    char *temp = malloc(strlen(name) + 1);
+    strcpy(temp, name);
     free(temp);
-    FILE * file1=fopen(name,"a");
+
+    // Open the file for appending
+    FILE *file1 = fopen(name, "a");
+    if (file1 == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
     char line[256];
-    printf("enter exit after writing");
-    while(1){
-        fgets(line,sizeof(line),stdin);
-        if (strncmp(line,"exit",4)==0){
+    printf("Enter the story (type 'exit' to finish):\n");
+
+    // Write story to the file
+    while (1) {
+        fgets(line, sizeof(line), stdin);
+        if (strncmp(line, "exit", 4) == 0) {
             break;
         }
-        fputs(line,file1);
+        fputs(line, file1);
     }
     fclose(file1);
 }
 
-void story_read(char filename){
-    FILE * file1=open(filename,"r");
+void story_read(char *filename) {
+    // Correctly open the file for reading
+    FILE *file1 = fopen(filename, "r");
+    if (file1 == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
     char line[256];
-    while(fgets(line,sizeof(line),file1)){
-        printf("%s",line);
+    printf("Story content:\n");
+    while (fgets(line, sizeof(line), file1)) {
+        printf("%s", line);
     }
     fclose(file1);
-
 }
 
-int main(){
+int main() {
     int choice;
-    printf('enter the choice 1 : to write and upload story\n2 : to read a story :');
-    scanf("%d",&choice);
-    if(choice==1)
+    printf("Enter the choice:\n1 : To write and upload a story\n2 : To read a story\n");
+    scanf(" %d", &choice);
+    getchar(); // Clear the input buffer
+
+    if (choice == 1) {
         start_write();
-    else if(choice==2){
+    } else if (choice == 2) {
         char name[100];
-        printf("enter the name of the story");
-        scanf("%s",name);
+        printf("Enter the name of the story: ");
+        fgets(name, sizeof(name), stdin);
+        name[strcspn(name, "\n")] = '\0'; // Remove trailing newline
         story_read(name);
+    } else {
+        printf("Choose the correct option.\n");
     }
-    else
-        printf("choose the correct choice");
 
     return 0;
-
 }

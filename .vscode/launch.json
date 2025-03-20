@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
@@ -8,10 +9,10 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/pulki/Desktop/short stories",
+      "cwd": "c:/Users/pulki/Desktop/short stories/outDebug.exe",
       "program": "c:/Users/pulki/Desktop/short stories/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
+      "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
@@ -20,5 +21,24 @@
         }
       ]
     }
+  ]
+}
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "build",
+          "command": "gcc",
+          "args": [
+              "-g",
+              "main.c",
+              "-o",
+              "build/Debug/outDebug.exe"
+          ],
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          }
+      }
   ]
 }
